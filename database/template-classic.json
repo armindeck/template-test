@@ -1,0 +1,8 @@
+{
+    "id_file": "template-classic.json",
+    "type": "classic",
+    "version": "1.0",
+    "created": "2026-07-11",
+    "updated": "2026-07-12",
+    "render": "<!DOCTYPE html>\n<html lang=\"{{ page.language }}\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><title>{{ page.name }}</title>\n</head>\n<body>\n<header class=\"flex space-evenly p-10\"><h1>{{ page.name }}</h1></header>\n<main class=\"flex space-evenly\"><div class=\"content\">{{ main }}</div></main>\n<footer class=\"flex space-evenly p-6\"><small>&copy; {{ page.year }} {{ page.name }}. Powered by {{ core.creator_name }}.</small></footer>\n</body>\n</html>"
+}

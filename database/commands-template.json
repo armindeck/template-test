@@ -1,0 +1,5 @@
+{
+    "version": "1.0",
+    "link_new": "<a href=\"{{ url }}\" {{ params }}>{{ label }}</a>",
+    "link_new_all": "<a href=\"{{ url }}\" {{ params }}>{{ label }}</a>"
+}

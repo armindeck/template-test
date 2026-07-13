@@ -1,0 +1,36 @@
+{
+    "name": "lite",
+    "link": "https://.com",
+    "version": "1.0",
+    "state": "dev",
+    "updated": "2026-07-11",
+    "created": "2026-07-11",
+    "creator_name": "Armin Deck",
+    "creator_link": "https://github.com/armindeck",
+    "social": {
+        "personal": {
+            "social_name": "Personal",
+            "name": "dbproject",
+            "link": "https://dbproject.rf.gd",
+            "icon": "fas fa-hamburger"
+        },
+        "github": {
+            "social_name": "GitHub",
+            "name": "Armin Deck",
+            "link": "https://github.com/armindeck",
+            "icon": "fab fa-github"
+        },
+        "facebook": {
+            "social_name": "Facebook",
+            "name": "Tobix64",
+            "link": "https://facebook.com/tobix64",
+            "icon": "fab fa-facebook"
+        },
+        "youtube": {
+            "social_name": "YouTube",
+            "name": "Tobix64",
+            "link": "https://youtube.com/@tobix64",
+            "icon": "fab fa-youtube"
+        }
+    }
+}
