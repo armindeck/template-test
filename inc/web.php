@@ -29,8 +29,20 @@ switch ($slug) {
         break;
 
     case 'form':
-        $model->save_template();
-        view("form");
+        $get_filename = secureString($_GET["filename"] ?? "");
+        $path_file = $model->get_database_path() . "template/$get_filename";
+        $file_exists = !empty($get_filename) && file_exists($path_file);
+        $file_read = $file_exists ? $model->read($path_file) : [];
+
+        $data = [
+            "filename" => $get_filename,
+            "type" => $file_read["type"] ?? secureString($_GET["type"] ?? "classic"),
+            "version" => $file_read["version"] ?? "",
+            "render" => secureString($file_read["render"] ?? ""),
+        ];
+
+        $model->save_template($app->get_core()["version"] . "-" . $app->get_core()["state"]);
+        view("form", $data);
         break;
     
     default:
