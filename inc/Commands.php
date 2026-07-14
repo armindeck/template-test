@@ -35,11 +35,26 @@ class Commands
     ){}
 
     public function render(bool $in_array = false): string|array {
-        $output = is_array($this->content) ? json_encode($this->content) : $this->content;
+        if (is_array($this->content)) {
+            $result = [];
+            foreach ($this->content as $key => $value) {
+                $command = new self($this->commands, $value, $this->core, $this->config);
+                $result[$key] = $command->render(false);
+            }
+            return $in_array ? $result : json_encode($result, JSON_PRETTY_PRINT);
+        }
+        
+        $output = $this->content;
+        
+        if ($output === null) {
+            $output = '';
+        }
+        
         foreach ($this->commands as $key_group => $value_group) {
             foreach ($value_group as $cmd_key => $cmd_value) {
                 if ($cmd_key == "example_command") continue;
-
+                $search_command = "";
+                
                 if($key_group == "app"){
                     $search_command = "{{ $cmd_key }}";
                     $cmd = explode(".", $cmd_key);
@@ -56,10 +71,13 @@ class Commands
                 } elseif ($key_group == "freely") {
                     $search_command = $cmd_key;
                 }
-                
-                $output = str_replace($search_command, $cmd_value, $output);
+
+                if (!empty($search_command)) {
+                    $output = str_replace($search_command, $cmd_value, $output);
+                }
             }
         }
+        
         return $in_array ? json_decode($output, true) : $output;
     }
 }
