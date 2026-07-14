@@ -30,8 +30,8 @@ session_start([
     "use_strict_mode" => true // Evita session fixation
 ]);
 
-require __DIR__ . "/inc/App.php";
 require __DIR__ . "/inc/Model.php";
+require __DIR__ . "/inc/App.php";
 require __DIR__ . "/inc/Template.php";
 require __DIR__ . "/inc/Commands.php";
 require __DIR__ . "/inc/function.php";
@@ -41,31 +41,28 @@ require __DIR__ . "/inc/lib/MarkdownExtra.php";
 
 use inc\App, inc\Model, inc\Template, inc\Commands, Michelf\Markdown, Michelf\MarkdownExtra;
 
+$model = new Model();
+
 $slug = secureString($_GET["slug"] ?? "home");
 $slug_explode = explode("/", $slug);
 
-$model = new Model();
+$app = new App("core.json", "config.json");
+$app->set_template($app->get_config()["template"] ?? "");
+$app->set_commands("commands.json");
 
-$app = new App(
-    $model->read("database/core.json"),
-    $model->read("database/config.json"),
-    $model->read("database/template-classic.json")
-);
-
-$commands_data = $model->read("database/commands.json");
 $content_data = $model->read("database/content.json");
 $content_data["content"] = MarkdownExtra::defaultTransform($content_data["content"]);
 
-$content_commands = new Commands(
-    commands: $commands_data,
-    content: $content_data,
+$template_commands = new Commands(
+    commands: $app->get_commands(),
+    content: $app->get_template(),
     core: $app->get_core(),
     config: $app->get_config()
 );
 
-$template_commands = new Commands(
-    commands: $commands_data,
-    content: $app->get_template(),
+$content_commands = new Commands(
+    commands: $app->get_commands(),
+    content: $content_data,
     core: $app->get_core(),
     config: $app->get_config()
 );
@@ -73,13 +70,3 @@ $template_commands = new Commands(
 $template = new Template($template_commands->render(true), $content_commands->render(true));
 
 require __DIR__ . "/inc/web.php";
-
-//echo $template->render();
-/*
-view("view", [
-    "core" => $app->get_core(),
-    "config" => $app->get_config(),
-    "content" => $content_commands->render(true),
-    "template" => $template->render()]
-);
-*/
