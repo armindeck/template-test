@@ -1,0 +1,149 @@
+{
+  "id_file": "new-template.json",
+  "enable_scripts": true,
+  "version": "2.0",
+  "infoooo": "{{ version }}",
+  "containers": [
+    {
+      "id": "components",
+      "label": "Componentes globales",
+      "type": "components",
+      "enabled": true,
+      "elements": [
+        {
+          "id": "content",
+          "label": "Contenido",
+          "enabled": true,
+          "render": {
+            "html": "<input type=\"checkbox\" class=\"check-sidebar\" id=\"check-sidebar\" hidden>\n<div style=\"position: fixed; z-index: 99; right: 10px; bottom: 10px;\">\n\t<a class=\"boton boton-mini\" style=\"padding: 4px 10px;\" href=\"#\"><i class=\"fas fa-caret-up\"></i></a>\n</div>",
+            "hide_labels": true,
+            "show_fields": ["commands", "scripts"]
+          },
+          "commands": [
+            { "type": "hr" },
+            { 
+              "type": "form", 
+              "form_type": "InputModalQuantity", 
+              "target_group": "social",
+              "label": "Redes sociales"
+            },
+            { "type": "hr" },
+            { 
+              "type": "form", 
+              "form_type": "InputModalQuantity", 
+              "target_group": "social-recommend",
+              "label": "Redes recomendadas"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "header",
+      "label": "Cabecera",
+      "type": "header",
+      "enabled": true,
+      "wrapper": {
+        "open": "<header class=\"header\">",
+        "close": "</header>"
+      },
+      "elements": [
+        {
+          "id": "content",
+          "label": "Contenido",
+          "enabled": true,
+          "render": {
+            "html": "<section class=\"titulo\">{{ link_new key=\"title\" }}</section>\n<section class=\"flex\">{{ link_new_all group=\"social\" unique=\"icon\" }}</section>",
+            "hide_labels": true,
+            "show_fields": ["scripts"]
+          },
+          "commands": [
+            { "type": "hr" },
+            { 
+              "type": "form", 
+              "form_type": "InputModal", 
+              "target_key": "title",
+              "label": "Título principal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "header-bar",
+      "label": "Barra de navegación",
+      "type": "header-bar",
+      "enabled": true,
+      "wrapper": {
+        "open": "<header class=\"header-bar\">\n  <div class=\"inner\">",
+        "close": "  </div>\n</header>"
+      },
+      "elements": [
+        {
+          "id": "menu-toggle",
+          "label": "Botón de menú móvil",
+          "enabled": true,
+          "render": {
+            "html": "<label for=\"check-sidebar\"><a><i class=\"fas fa-bars\"></i></a></label>",
+            "show_fields": ["content"]
+          }
+        },
+        {
+          "id": "menu-links",
+          "label": "Enlaces del menú",
+          "enabled": true,
+          "render": {
+            "html": "<label>\n  <input type=\"checkbox\" hidden>\n  <a><i class=\"fas fa-bars\"></i></a>\n  <div class=\"sub\">\n    <nav>\n      {{ link_new_all group=\"entries\" }}\n    </nav>\n  </div>\n</label>",
+            "show_fields": ["scripts"]
+          },
+          "commands": [
+            { "type": "hr" },
+            { 
+              "type": "form", 
+              "form_type": "InputModalQuantity", 
+              "target_group": "entries",
+              "label": "Entradas del menú"
+            }
+          ]
+        },
+        {
+          "id": "menu-title",
+          "label": "Título del menú",
+          "enabled": true,
+          "render": {
+            "html": "{{ link_new key=\"title\" }}",
+            "show_fields": ["scripts"]
+          },
+          "commands": [
+            { "type": "form", "form_type": "InputModal", "target_key": "title", "label": "Título" }
+          ]
+        },
+        {
+          "id": "user-area",
+          "label": "Área de usuario y extras",
+          "enabled": true,
+          "render": {
+            "html": "<label>\n  <input type=\"checkbox\" hidden>\n  <a><i class=\"fas fa-user-circle\"></i></a>\n  <div class=\"sub\">\n    <nav>\n      {{ link_new_all group=\"non-session\" }}\n      {{ link_new_all group=\"session\" }}\n    </nav>\n  </div>\n</label>\n<section>{{ view \"components/themes\" }}</section>\n<section>{{ view \"components/languages\" }}</section>\n<section>{{ view \"components/search\" }}</section>",
+            "show_fields": ["scripts"]
+          },
+          "commands": [
+            { 
+              "type": "form", 
+              "form_type": "InputModalQuantity", 
+              "target_group": "non-session",
+              "label": "Enlaces sin sesión"
+            },
+            { "type": "hr" },
+            { 
+              "type": "form", 
+              "form_type": "InputModalQuantity", 
+              "target_group": "session",
+              "label": "Enlaces con sesión"
+            }
+          ]
+        }
+      ]
+    },
+    "// ... el resto de contenedores (sidebar, main, aside, footer, copyright) siguen el mismo patrón"
+  ]
+}
