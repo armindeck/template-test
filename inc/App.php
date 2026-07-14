@@ -25,23 +25,39 @@ SOFTWARE.
 
 namespace inc;
 
-class App
+use inc\Model;
+
+class App extends Model
 {
     public function __construct(
-        private array $core,
-        private array $config,
-        private array $template
+        private string $core,
+        private string $config,
     ){}
+        
+    private string $template;
+    private string $commands;
 
     public function get_core(): array {
-        return $this->core;
+        return $this->read($this->get_database_path() . $this->core, enabled_cache: true);
     }
 
     public function get_config(): array {
-        return $this->config;
+        return $this->read($this->get_database_path() . $this->config, enabled_cache: true);
     }
 
     public function get_template(): array {
-        return $this->template;
+        return $this->read($this->get_templates_path() . $this->template);
+    }
+
+    public function get_commands(): array {
+        return $this->read($this->get_commands_path() . $this->commands, enabled_cache: true);
+    }
+
+    public function set_template(string $filename_template): void {
+        $this->template = $filename_template;
+    }
+
+    public function set_commands(string $filename_commands): void {
+        $this->commands = $filename_commands;
     }
 }
