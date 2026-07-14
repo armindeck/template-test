@@ -4,6 +4,6 @@
     "version": "1.0.0",
     "version_core": "1.0-dev",
     "created": "2026-07-13 16:41:20",
-    "updated": "2026-07-13 18:17:21",
-    "render": "<header>\n  {{ page.name }}\n</header>\n<main>\n  {{ main }}\n</main>\n<footer>\n  &copy; {{ page.year }} {{ page.name }}.\n</footer>"
+    "updated": "2026-07-13 22:06:30",
+    "render": "<header>\r\n  {{ page.name }}\r\n<\/header>\r\n<main>\r\n  {{ main }} img[https:\/\/dbproject.rf.gd\/assets\/img\/miniatura.png]img;\r\n<\/main>\r\n<footer>\r\n  &copy; {{ page.year }} {{ page.name }}.\r\n<\/footer>"
 }
