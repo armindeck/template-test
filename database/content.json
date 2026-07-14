@@ -1,5 +1,5 @@
 {
     "title": "{{ page.name }}: {{ page.description }}",
     "slug": "{{ page.link }}",
-    "content": "Wellcome to {{ page.name }}\n# Jose Mario hasta la cacha\n\n---\n\n- Bienvenidos a la pagina de jose mario\n- Recuerden descargar mi juego"
+    "content": "Wellcome to {{ page.name }}\n link[https://.com]/[Hola mundo!]link; \n# Jose Mario hasta la cacha\n\n---\n\n- Bienvenidos a la pagina de jose mario\n- Recuerden descargar mi juego"
 }
