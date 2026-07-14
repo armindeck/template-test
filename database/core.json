@@ -1,9 +1,9 @@
 {
-    "name": "lite",
-    "link": "https://.com",
+    "name": "Template-test",
+    "link": "http://localhost/template-test",
     "version": "1.0",
     "state": "dev",
-    "updated": "2026-07-11",
+    "updated": "2026-07-13",
     "created": "2026-07-11",
     "creator_name": "Armin Deck",
     "creator_link": "https://github.com/armindeck",
