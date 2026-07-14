@@ -27,8 +27,29 @@ namespace inc;
 
 class Model
 {
-    public function read(string $file, bool $in_string = false): array|string
-    {
+    private const DATABASE_DIR = __DIR__ . "/../database/";
+    private const TEMPLATES_DIR = self::DATABASE_DIR . "templates/";
+    private const POSTS_DIR = self::DATABASE_DIR . "posts/";
+    private const COMMANDS_DIR = self::DATABASE_DIR;
+
+    public function read(string $file, bool $in_string = false, bool $enabled_cache = false): array|string {
+        if ($enabled_cache) {
+            static $cache = [];
+            
+            // Si el archivo ya está en caché, devolverlo
+            if (isset($cache[$file])) {
+                $content = $cache[$file];
+                return $in_string ? $content : json_decode($content, true) ?? [];
+            }
+            
+            // Si no está en caché, leerlo y guardarlo
+            $content = file_get_contents($file) ?? "";
+            $cache[$file] = $content;
+            
+            return $in_string ? $content : json_decode($content, true) ?? [];
+        }
+        
+        // Sin caché - comportamiento original
         $content = file_get_contents($file) ?? "";
         return $in_string ? $content : json_decode($content, true) ?? [];
     }
@@ -38,24 +59,49 @@ class Model
         return file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT)) !== false;
     }
 
-    public function save_template(): void {
+    public function save_template(string $core_version_state): void {
         if(isset($_POST["save_template"])){
-            $id_file = str_replace(".json", "", $_POST["id_file" ?? ""]);
+            $filename_origin = str_replace(".json", "", $_POST["filename" ?? ""]);
+            $filename_complete = secureStringFile($filename_origin) . ".json";
+            $filename_not_empty = !empty($filename_origin);
+            $path_file = $this->get_database_path() . "templates/" . $filename_complete;
+            $filename_exists = $filename_not_empty ? file_exists($path_file) : false;
+
+            $date = date_year_month_day_minute_second();
 
             $data = [
-                "id_file"   => secureStringFile($id_file) . ".json",
+                "filename"   => $filename_complete,
                 "type"      => secureString($_POST["type"] ?? ""),
                 "version"   => secureString($_POST["version"] ?? ""),
+                "version_core" => $core_version_state,
+                "created"   => $filename_exists ? $this->read($path_file)["created"] ?? $date : $date,
+                "updated"   => $date,
                 "render"    => $_POST["render"] ?? "",
             ];
 
-            if(empty($data["id_file"]) || empty($data["type"]) || empty($data["version"]) || empty($data["render"])){
+            if(empty($filename_origin) || empty($data["type"]) || empty($data["version"]) || empty($data["render"])){
                 die("Llene todos los datos");
             }
 
-            $confirm = $this->write(__DIR__ . "/../database/{$data['id_file']}", $data);
+            $confirm = $this->write($path_file, $data);
 
-            die(($confirm ? "Se guardaron los datos de: " : "Error al guardar los datos de: ") . $data["id_file"]);
+            die(($confirm ? "Se guardaron los datos de: " : "Error al guardar los datos de: ") . $data["filename"]);
         }
+    }
+
+    public function get_database_path(): string {
+        return self::DATABASE_DIR;
+    }
+
+    public function get_templates_path(): string {
+        return self::TEMPLATES_DIR;
+    }
+
+    public function get_posts_path(): string {
+        return self::POSTS_DIR;
+    }
+
+    public function get_commands_path(): string {
+        return self::COMMANDS_DIR;
     }
 }
