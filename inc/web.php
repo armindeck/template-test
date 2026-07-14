@@ -30,7 +30,7 @@ switch ($slug) {
 
     case 'form':
         $get_filename = secureString($_GET["filename"] ?? "");
-        $path_file = $model->get_database_path() . "template/$get_filename";
+        $path_file = $model->get_templates_path() . $get_filename;
         $file_exists = !empty($get_filename) && file_exists($path_file);
         $file_read = $file_exists ? $model->read($path_file) : [];
 
