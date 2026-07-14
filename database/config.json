@@ -1,11 +1,11 @@
 {
-    "page_name": "Lite",
-    "page_link": "https://.com",
-    "page_description": "Is Lite!",
+    "page_name": "Template-test",
+    "page_link": "http://localhost/template-test",
+    "page_description": "Is Sugoi!",
     "year": 2026,
     "language": "en",
     "theme": "lite.css",
     "color": "white",
-    "template": "default",
+    "template": "template-generate-classic.json",
     "timezone": "America/Bogota"
 }
