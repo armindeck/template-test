@@ -30,6 +30,19 @@
         "core.social.youtube.link": "social.youtube.link",
         "core.social.youtube.icon": "social.youtube.icon"
     },
+    "content": {
+        "example_command": "{{ $key.$value }}",
+        "content.title": "title",
+        "content.slug": "slug",
+        "content.content": "content",
+        "content.date_published": "date_published",
+        "content.date_updated": "date_updated",
+        "content.date_reactions": "reactions",
+        "content.date_likes": "likes",
+        "content.date_dislikes": "dislikes",
+        "content.author_name": "author_name",
+        "content.author_link": "author_link"
+    },
     "freely": {
         "example_command": "$key",
         "img[http": "<img src=\"http",
@@ -66,5 +79,9 @@
         "button-2-mini-external[": "<a class=\"boton-2 boton-mini\" target=\"_blank\" href=\"",
         "button-2-mini-ignore[": "<a class=\"boton-2 boton-mini\" target=\"_blank\" rel=\"nofollow noreferrer\" href=\"",
         "]button;": "</a>"
+    },
+    "global": {
+        "example_command": "$key",
+        "main": "main"
     }
 }
