@@ -3,10 +3,39 @@
     padding: 0;
     box-sizing: border-box;
 }
+body {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+form {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px 10px;
+}
+input, button, select, textarea {
+    padding: 8px 8px;
+}
+
+textarea {
+    font-family: 'Courier New', monospace;
+    resize: vertical;
+    width: 100%;
+    padding: 12px;
+}
 
 .flex { display: flex; }
 .block { display: block; }
 .inline-block { display: inline-block; }
+.flex-wrap { flex-wrap: wrap; }
+.flex-1 { flex: 1; }
+
+.flex-row { flex-direction: row; }
+.flex-row-reverse { flex-direction: row-reverse; }
+.flex-column { flex-direction: column; }
+.flex-column-reverse { flex-direction: column-reverse; }
 
 .space-between { justify-content: space-between; }
 .space-evenly { justify-content: space-evenly; }
