@@ -46,7 +46,7 @@ class App extends Model
     }
 
     public function get_template(): array {
-        return $this->read($this->get_templates_path() . $this->template);
+        return $this->read($this->get_templates_path() . $this->template, enabled_cache: true);
     }
 
     public function get_commands(): array {
