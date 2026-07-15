@@ -4,6 +4,6 @@
     "version": "1.0.0",
     "version_core": "1.0-dev",
     "created": "2026-07-13 16:41:20",
-    "updated": "2026-07-13 22:06:30",
-    "render": "<header>\r\n  {{ page.name }}\r\n<\/header>\r\n<main>\r\n  {{ main }} img[https:\/\/dbproject.rf.gd\/assets\/img\/miniatura.png]img;\r\n<\/main>\r\n<footer>\r\n  &copy; {{ page.year }} {{ page.name }}.\r\n<\/footer>"
+    "updated": "2026-07-13 22:57:51",
+    "render": "<!DOCTYPE html>\r\n<html lang=\"{{ page.language }}\">\r\n<head>\r\n  <title>{{ content.title }} - {{ page.name }}<\/title>\r\n<style type=\"text\/css\">\r\n  * { margin: 0; padding: 0; border-box: box-sizing; }\r\n  body { font-family: Arial, san-serif; }\r\n  header { background-color: white; }\r\n  footer { background-color: #ccc; color: red; }\r\n  img { max-width: 350px; }\r\n<\/style>\r\n<\/head>\r\n<body>\r\n  <header>\r\n    {{ page.name }}\r\n  <\/header>\r\n  <main>\r\n    {{ main }}\r\n    img[https:\/\/dbproject.rf.gd\/assets\/img\/miniatura.png]img;\r\n  <\/main>\r\n  <footer>\r\n    &copy; {{ page.year }} {{ page.name }}.\r\n  <\/footer>\r\n<body>\r\n<\/html>"
 }
