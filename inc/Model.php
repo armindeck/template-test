@@ -32,7 +32,7 @@ class Model
     private const POSTS_DIR = self::DATABASE_DIR . "posts/";
     private const COMMANDS_DIR = self::DATABASE_DIR;
 
-    public function read(string $file, bool $in_string = false, bool $enabled_cache = false): array|string {
+    public function read(string $file, bool $in_string = false, bool $enabled_cache = false, bool $local = true): array|string {
         if ($enabled_cache) {
             static $cache = [];
             
@@ -43,14 +43,14 @@ class Model
             }
             
             // Si no está en caché, leerlo y guardarlo
-            $content = file_get_contents($file) ?? "";
+            $content = $local ? (file_exists($file) ? file_get_contents($file) ?? "" : "") : file_get_contents($file) ?? "";
             $cache[$file] = $content;
             
             return $in_string ? $content : json_decode($content, true) ?? [];
         }
         
         // Sin caché - comportamiento original
-        $content = file_get_contents($file) ?? "";
+        $content = $local ? (file_exists($file) ? file_get_contents($file) ?? "" : "") : file_get_contents($file) ?? "";
         return $in_string ? $content : json_decode($content, true) ?? [];
     }
 
@@ -66,6 +66,7 @@ class Model
             $filename_not_empty = !empty($filename_origin);
             $path_file = $this->get_database_path() . "templates/" . $filename_complete;
             $filename_exists = $filename_not_empty ? file_exists($path_file) : false;
+            $type_list = ["classic", "standard", "modern"];
 
             $date = date_year_month_day_minute_second();
 
@@ -75,17 +76,30 @@ class Model
                 "version"   => secureString($_POST["version"] ?? ""),
                 "version_core" => $core_version_state,
                 "created"   => $filename_exists ? $this->read($path_file)["created"] ?? $date : $date,
-                "updated"   => $date,
-                "render"    => $_POST["render"] ?? "",
+                "updated"   => $date
             ];
 
-            if(empty($filename_origin) || empty($data["type"]) || empty($data["version"]) || empty($data["render"])){
-                die("Llene todos los datos");
+            if(empty($filename_origin) || empty($data["type"]) || empty($data["version"])){
+                header("Location: form?error=Llene_todos_los_datos" . ($filename_not_empty ? "&filename={$filename_complete}" : ""));
+            }
+
+            if($data["type"] == "classic"){
+                $data["render"] = $_POST["render"] ?? "";
+            }
+
+            if($data["type"] == "standard"){
+                $count_containers = (int) $_POST["count_containers"] ?? 0;
+                for ($i = 0; $i < $count_containers; $i++) { 
+                    $data["containers"][$i] = [
+                        "enabled" => !empty($_POST["enabled"][$i]),
+                        "render" => $_POST["render"][$i] ?? "",
+                    ];
+                }
             }
 
             $confirm = $this->write($path_file, $data);
-
-            die(($confirm ? "Se guardaron los datos de: " : "Error al guardar los datos de: ") . $data["filename"]);
+            $message = ($confirm ? "Se guardaron los datos de: " : "Error al guardar los datos de: ") . $data["filename"];
+            header("Location: form?msg=$message" . ($filename_not_empty ? "&filename={$filename_complete}" : ""));
         }
     }
 
