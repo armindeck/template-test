@@ -25,11 +25,15 @@ SOFTWARE.
 
 namespace inc;
 
-class Template
+use inc\Commands;
+
+class Template extends Commands
 {
     public function __construct(
-        private array $template,
-        private array $content
+        private array $commands,
+        private array $core,
+        private array $config,
+        private array $template
     ){}
 
     public function get_template(): array {
@@ -50,7 +54,9 @@ class Template
     }
 
     private function classic(): string {
-        return !empty($this->template["render"]) ? str_replace("{{ main }}", $this->content["content"] ?? "", $this->template["render"]) : "";
+        $this->set_content($this->template["render"]);
+        //$this->set_content(!empty($this->template["render"]) ? str_replace("{{ main }}", $this->content["content"] ?? "", $this->template["render"]) : "");
+        return $this->transform();
     }
 
     private function standard(): string {
