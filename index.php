@@ -30,10 +30,12 @@ session_start([
     "use_strict_mode" => true // Evita session fixation
 ]);
 
+define("RAIZ", __DIR__ . "/");
+
 require __DIR__ . "/inc/Model.php";
 require __DIR__ . "/inc/App.php";
-require __DIR__ . "/inc/Template.php";
 require __DIR__ . "/inc/Commands.php";
+require __DIR__ . "/inc/Template.php";
 require __DIR__ . "/inc/function.php";
 require __DIR__ . "/inc/lib/Markdown.php";
 require __DIR__ . "/inc/lib/MarkdownExtra.php";
@@ -50,23 +52,44 @@ $app = new App("core.json", "config.json");
 $app->set_template($app->get_config()["template"] ?? "");
 $app->set_commands("commands.json");
 
-$content_data = $model->read("database/content.json");
-$content_data["content"] = MarkdownExtra::defaultTransform($content_data["content"]);
+/*
+$template_data = $app->get_template();
 
-$template_commands = new Commands(
+$content_data = $model->read($model->get_posts_path() . secureStringFile($slug) . ".json") ?? [];
+$content_data["content"] = MarkdownExtra::defaultTransform($content_data["content"] ?? "");
+
+$commands = new Commands(
     commands: $app->get_commands(),
-    content: $app->get_template(),
     core: $app->get_core(),
     config: $app->get_config()
 );
 
-$content_commands = new Commands(
-    commands: $app->get_commands(),
-    content: $content_data,
-    core: $app->get_core(),
-    config: $app->get_config()
-);
+$commands->set_content([
+    "title" => $content_data["title"],
+    "content" => $content_data["content"]
+]);
+$transform = $commands->transform(true);
+$content_data["title"] = $transform["title"];
+$content_data["content"] = $transform["content"];
 
-$template = new Template($template_commands->render(true), $content_commands->render(true));
+$commands->set_content($template_data["render"]);
+$commands->set_content_post_data($content_data);
+echo $commands->transform();
+
+// --------------- RENDERIZAR COMANDOS SENCILLOS - new Template no funciona -------------------
+//exit();
+
+$template = new Template(
+    $app->get_commands(),
+    $app->get_core(),
+    $app->get_config(),
+    $template_data
+);
+$commands->set_content($template_data["render"]);
+
+$template->set_content_post_data($content_data);
+echo $template->transform();
+
+*/
 
 require __DIR__ . "/inc/web.php";
