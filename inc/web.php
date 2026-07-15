@@ -39,6 +39,7 @@ switch ($slug) {
             "type" => $file_read["type"] ?? secureString($_GET["type"] ?? "classic"),
             "version" => $file_read["version"] ?? "",
             "render" => secureString($file_read["render"] ?? ""),
+            "containers" => $file_read["containers"] ?? []
         ];
 
         $model->save_template($app->get_core()["version"] . "-" . $app->get_core()["state"]);
